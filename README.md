@@ -9,7 +9,7 @@ python main.py          # trains the Keras model and creates the plots
 streamlit run app.py    # opens the dashboard
 
 ## Live dashboard
-LINK_YAHAN_DAALNA
+https://anomaly-detection-autoencoder-hvha3vxt7wvhp9vaubpfwn.streamlit.app/
 
 ## Results (test set)
 - 99th percentile threshold: precision 0.941, recall 1.000, F1 0.969
