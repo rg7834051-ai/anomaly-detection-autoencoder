@@ -194,3 +194,14 @@ plt.scatter(true_idx, test["temperature"].values[true_idx], facecolors="none",
 plt.legend(); plt.title("Flagged Points on Temperature Sensor")
 plt.savefig("plot4_flagged.png", dpi=150, bbox_inches="tight")
 plt.close()
+import json
+
+out = test.copy().reset_index(drop=True)
+out["error"] = err_test
+out["label"] = y_test
+out.to_csv("test_results.csv", index=False)
+
+with open("thresholds.json", "w") as f:
+    json.dump({"percentile": float(threshold), "best_f1": float(threshold_f1)}, f)
+
+print("Saved test_results.csv and thresholds.json")
