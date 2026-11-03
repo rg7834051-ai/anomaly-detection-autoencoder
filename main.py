@@ -194,14 +194,52 @@ plt.scatter(true_idx, test["temperature"].values[true_idx], facecolors="none",
 plt.legend(); plt.title("Flagged Points on Temperature Sensor")
 plt.savefig("plot4_flagged.png", dpi=150, bbox_inches="tight")
 plt.close()
-import json
 
+import os
+import json
+import joblib
+
+# Create models folder
+os.makedirs("models", exist_ok=True)
+
+# 1. Save trained Keras Autoencoder
+model.save("models/autoencoder.keras")
+
+# 2. Save fitted StandardScaler
+joblib.dump(scaler, "models/scaler.pkl")
+
+# 3. Save both thresholds
+threshold_data = {
+    "percentile": float(threshold),
+    "best_f1": float(threshold_f1)
+}
+
+with open("models/thresholds.json", "w") as f:
+    json.dump(threshold_data, f, indent=4)
+
+# 4. Save model metadata
+metadata = {
+    "model_name": "Sensor Anomaly Detection Autoencoder",
+    "algorithm": "TensorFlow Keras Autoencoder",
+    "features": features,
+    "bottleneck_size": 3,
+    "training_samples": len(X_train_s),
+    "validation_samples": len(X_val_s),
+    "test_samples": len(X_test_s)
+}
+
+with open("models/metadata.json", "w") as f:
+    json.dump(metadata, f, indent=4)
+
+# Save test results
 out = test.copy().reset_index(drop=True)
 out["error"] = err_test
 out["label"] = y_test
 out.to_csv("test_results.csv", index=False)
 
-with open("thresholds.json", "w") as f:
-    json.dump({"percentile": float(threshold), "best_f1": float(threshold_f1)}, f)
-
-print("Saved test_results.csv and thresholds.json")
+print("\nAll model files saved successfully!")
+print("Model: models/autoencoder.keras")
+print("Scaler: models/scaler.pkl")
+print("Thresholds: models/thresholds.json")
+print("Metadata: models/metadata.json")
+print("Test results: test_results.csv")

@@ -1,0 +1,14 @@
+{
+    "model_name": "Sensor Anomaly Detection Autoencoder",
+    "algorithm": "TensorFlow Keras Autoencoder",
+    "features": [
+        "temperature",
+        "vibration",
+        "pressure",
+        "rpm"
+    ],
+    "bottleneck_size": 3,
+    "training_samples": 3600,
+    "validation_samples": 1200,
+    "test_samples": 1200
+}
